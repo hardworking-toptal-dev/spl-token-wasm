@@ -1,0 +1,16 @@
+[package]
+name = "spl-token-wasm"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "spl_token_wasm"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+futures = "0.3"
+solana-client-wasm = "1.18.0"
+spl-token-2022 = "2.0.2"
+wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
+wasm-bindgen-futures = "0.4.0"
+web-sys = { version = "0.3", features = ["console"] }

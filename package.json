@@ -1,0 +1,7 @@
+{
+  "name": "spl-token-wasm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "dankelleher <dankelleher@yahoo.com>",
+  "license": "MIT"
+}
