@@ -2,6 +2,7 @@
 name = "spl-token-wasm"
 version = "0.1.0"
 edition = "2021"
+resolver = "2"
 
 [lib]
 name = "spl_token_wasm"
@@ -9,8 +10,8 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 futures = "0.3"
-solana-client-wasm = "1.18.0"
-spl-token-2022 = "2.0.2"
+solana-client-wasm = { git = "https://github.com/dankelleher/solana-playground", branch = "solana-sdk-2" }
+spl-token-2022 = { git = "https://github.com/dankelleher/solana-program-library", branch = "zk" }
 wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.0"
 web-sys = { version = "0.3", features = ["console"] }

@@ -4,17 +4,16 @@ mod wasm_signer_error;
 use std::str::FromStr;
 use solana_client_wasm::solana_sdk::pubkey::Pubkey;
 use solana_client_wasm::solana_sdk::signature::Signer;
-use spl_token_2022::error::TokenError;
 use wasm_bindgen::prelude::*;
 use spl_token_2022::extension::{BaseStateWithExtensions, confidential_transfer, StateWithExtensionsOwned};
 use spl_token_2022::extension::confidential_transfer::account_info::{ApplyPendingBalanceAccountInfo, TransferAccountInfo};
 use spl_token_2022::extension::confidential_transfer::ConfidentialTransferAccount;
 use spl_token_2022::proof::ProofLocation;
 use spl_token_2022::solana_zk_token_sdk::encryption::auth_encryption::AeKey;
-use spl_token_2022::solana_zk_token_sdk::encryption::elgamal;
 use spl_token_2022::solana_zk_token_sdk::encryption::elgamal::{ElGamalKeypair, ElGamalPubkey};
 use spl_token_2022::solana_zk_token_sdk::instruction::TransferData;
 use spl_token_2022::state::Account;
+use web_sys::console;
 use crate::wasm_signer::WasmSigner;
 
 const DEFAULT_MAXIMUM_PENDING_BALANCE_CREDIT_COUNTER: u64 = 65536;
@@ -213,7 +212,7 @@ pub async fn transfer_confidential(
     let new_decryptable_available_balance = transfer_account_info
         .new_decryptable_available_balance(amount, &sender_aes_key).unwrap();
 
-    let ix = confidential_transfer::instruction::transfer(
+    let ixes = confidential_transfer::instruction::transfer(
         &spl_token_2022::id(),
         &source_token_account_pubkey,
         &mint_pubkey,
@@ -224,7 +223,9 @@ pub async fn transfer_confidential(
         proof_location
     ).unwrap();
 
-    let instruction_js = JsValue::from_serde(&ix).map_err(|e| e.to_string())?;
+    console::log_2(&"data len:".into(), &ixes.get(1).unwrap().data.len().into());
 
-    Ok(instruction_js)
+    let instructions_js = JsValue::from_serde(&ixes).map_err(|e| e.to_string())?;
+
+    Ok(instructions_js)
 }
